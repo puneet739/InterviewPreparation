@@ -1,6 +1,6 @@
 package com.puneet.interview.swiggy;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -10,9 +10,9 @@ public class User {
 
 	private String userName;
 	private List<Skill> skills = new LinkedList<Skill>();
-	private Boolean[] freeUser = new Boolean[100];
+	private List<Interval> userHolidayPlans = new ArrayList<Interval>();
 	private Integer lastAvailableDay=0;
-	private Map<String, String> history = new HashMap<String, String>();
+	private Map<Interval, String> history = new HashMap<Interval, String>();
 	
 	public User(String name) {
 		this.userName=name;
@@ -48,22 +48,35 @@ public class User {
 	}
 	
 	public void addHoliday(int startDay, int endDay) {
-		for (int i=startDay; i<=endDay ; i++)  freeUser[i]=false;
+		userHolidayPlans.add(new Interval(startDay, endDay));
 	}
 
-	public Boolean[] getFreeUser() {
-		return freeUser;
+	/**
+	 * @return the userHolidayPlans
+	 */
+	public List<Interval> getUserHolidayPlans() {
+		return userHolidayPlans;
 	}
 
-	public void setFreeUser(Boolean[] freeUser) {
-		this.freeUser = freeUser;
+	/**
+	 * @param userHolidayPlans the userHolidayPlans to set
+	 */
+	public void setUserHolidayPlans(List<Interval> userHolidayPlans) {
+		this.userHolidayPlans = userHolidayPlans;
 	}
 
-	public Map<String, String> getHistory() {
+
+	/**
+	 * @return the history
+	 */
+	public Map<Interval, String> getHistory() {
 		return history;
 	}
 
-	public void setHistory(Map<String, String> history) {
+	/**
+	 * @param history the history to set
+	 */
+	public void setHistory(Map<Interval, String> history) {
 		this.history = history;
 	}
 
@@ -71,5 +84,54 @@ public class User {
 	public String toString() {
 		return "User [userName=" + userName + ", skills=" + skills
 				+ ", lastAvailableDay=" + lastAvailableDay + ", history=" + history + "]";
+	}
+
+	/**
+	 * 
+	 * @param daysRequired
+	 * @return true, after checking user holidayplans
+	 */
+	public boolean isUserFree(Integer daysRequired) {
+		return false;
+	}
+
+	/**
+	 * 
+	 * @param daysRequired
+	 * @return possible task completion duration for this user considering his leave plans
+	 */
+	public Interval getTaskCompletionDate(Integer daysRequired, Interval taskInterval) {
+		// check for overlaps with user holiday plans
+		for(Interval leave: this.getUserHolidayPlans()){
+			if(taskInterval.isOverlapped(leave)){
+				taskInterval.setStart(Math.max(leave.getEnd(), taskInterval.getEnd()) + 1);
+				taskInterval.setEnd(taskInterval.getStart()+daysRequired-1);
+			}else{
+				// found a span where task can be picked by the user
+				break;
+			}
+		}
+		return taskInterval;
+	}
+
+	/**
+	 * 
+	 * @param i
+	 * @return true, if user is free/available on this day
+	 */
+	public boolean isFreeThisDay(int day) {
+		for(Interval i: userHolidayPlans){
+			if(i.isDayOverlapped(day)){
+				System.out.println(this.userName + " is on PTO this #day " +day);
+				return false;
+			}
+		}
+		for(Interval i: history.keySet()){
+			if(i.isDayOverlapped(day)){
+				System.out.println(this.userName + " is working on " + history.get(i) + " this #day "+day);
+				return false;
+			}
+		}
+		return true;
 	}
 }

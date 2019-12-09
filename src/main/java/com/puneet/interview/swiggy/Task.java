@@ -5,18 +5,29 @@ import java.util.List;
 
 public class Task {
 	
-	public enum STATUS{
-		COMPLETED,INPROGRESS,NOT_STARTED
-	}
-	
 	private String taskName;
 	private Integer taskId;
 	private Integer daysRequired;
 	private Skill skillRequired;
-	private List<Task> predessorTask = new LinkedList<Task>();
-	private STATUS status;
+	private List<Task> predessorTask;
+	private TaskStatus status;
 	private User completedUser;
+	private Interval taskSpan;
 	
+	/**
+	 * @return the taskSpan
+	 */
+	public Interval getTaskSpan() {
+		return taskSpan;
+	}
+
+	/**
+	 * @param taskSpan the taskSpan to set
+	 */
+	public void setTaskSpan(Interval taskSpan) {
+		this.taskSpan = taskSpan;
+	}
+
 	public Integer getDaysRequired() {
 		return daysRequired;
 	}
@@ -40,6 +51,8 @@ public class Task {
 	public Task(String taskName) {
 		super();
 		this.taskName = taskName;
+		this.status = TaskStatus.NOT_STARTED;
+		this.predessorTask = new LinkedList<Task>();
 	}
 
 	public String getTaskName() {
@@ -62,12 +75,27 @@ public class Task {
 		predessorTask.add(task);
 	}
 
-	public STATUS getStatus() {
+
+
+	/**
+	 * @return the status
+	 */
+	public TaskStatus getStatus() {
 		return status;
 	}
 
-	public void setStatus(STATUS status) {
+	/**
+	 * @param status the status to set
+	 */
+	public void setStatus(TaskStatus status) {
 		this.status = status;
+	}
+
+	/**
+	 * @param predessorTask the predessorTask to set
+	 */
+	public void setPredessorTask(List<Task> predessorTask) {
+		this.predessorTask = predessorTask;
 	}
 
 	public User getCompletedUser() {
