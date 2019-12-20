@@ -5,7 +5,50 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-
+/*
+ * Server Upgrade mechanism u have to create. Servers are parked in 2D array mechanism. 
+		
+		A server which is upgrade represented by 1 and outdated server are 0. 
+		Upgraded Server=1;
+		OutDated Server=0
+		
+		Upgraded servers can upgrade there neighbours in 1 day, and neighours are left, right, top and bottom. not the diagnol servers. 
+		
+		How many days required to upgrade all servers. 
+		
+		Exampls: 
+		
+		Grid: 
+		0	1	1	0	1
+		0	1	0	1	0
+		0	0	0	0	1
+		0	1	0	0	0
+		
+		After Day 1	: 
+		1	1	1	1	1
+		1	1	1	1	1
+		0	1	0	1	1
+		1	1	1	0	1	
+		
+		
+		After Day 2:
+		1	1	1	1	1
+		1	1	1	1	1
+		1	1	1	1	1
+		1	1	1	1	1
+		
+		
+		Thus all servers are upgraded by EOD 2 day. 
+		
+		so output is 2
+		
+		
+		Write a code for this, or suggest approach first. 
+		
+		Regards
+		Puneet Behl
+		0-9711616135
+ */
 public class ServerUpgrade {
 
 	public static void main(String[] args) {
