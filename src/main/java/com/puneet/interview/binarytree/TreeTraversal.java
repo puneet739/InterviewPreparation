@@ -122,5 +122,9 @@ class Node{
 	public void setRight(Node right) {
 		this.right = right;
 	}
+	@Override
+	public String toString() {
+		return "Node [number=" + number + ", left=" + left + ", right=" + right + "]";
+	}
 	
 }
