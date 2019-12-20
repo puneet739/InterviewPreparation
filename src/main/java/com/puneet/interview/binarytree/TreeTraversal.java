@@ -1,5 +1,10 @@
 package com.puneet.interview.binarytree;
 
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Map;
+import java.util.Queue;
+
 public class TreeTraversal {
 
 	public static void main(String[] args) {
@@ -19,13 +24,76 @@ public class TreeTraversal {
 
 		
 		printLeftSideView(head);
-	
+		printrightSideView(head);
+		printdownView(head);
 	}
 
-	private static void printLeftSideView(Node head) {
+	
+	private static void printdownView(Node head) {
 		// TODO Auto-generated method stub
+		
+	}
+
+
+	private static void printrightSideView(Node head) {
+		Queue<Element> queue = new LinkedList<Element>();
+		queue.add(new TreeTraversal().new Element(head, 1));
+		
+		Map<Integer, Integer> levelMapping = new HashMap();
+		while(queue.peek()!=null) {
+			Element current = queue.poll();
+			//System.out.println(current.getNode().getNumber());
+			if (levelMapping.get(current.getLevel()) == null ){
+				System.out.println(current.getNode().getNumber());
+				levelMapping.put(current.getLevel(), current.getNode().getNumber());
+			}
+			if (current.getNode().getRight()!=null)
+				queue.add(new TreeTraversal().new Element(current.getNode().getRight(), current.getLevel()+1));
+			if (current.getNode().getLeft()!=null)
+				queue.add(new TreeTraversal().new Element(current.getNode().getLeft(), current.getLevel()+1));
+		}
 	}
 	
+	private static void printLeftSideView(Node head) {
+		Queue<Element> queue = new LinkedList<Element>();
+		queue.add(new TreeTraversal().new Element(head, 1));
+		
+		Map<Integer, Integer> levelMapping = new HashMap();
+		while(queue.peek()!=null) {
+			Element current = queue.poll();
+			//System.out.println(current.getNode().getNumber());
+			if (levelMapping.get(current.getLevel()) == null ){
+				System.out.println(current.getNode().getNumber());
+				levelMapping.put(current.getLevel(), current.getNode().getNumber());
+			}
+			if (current.getNode().getLeft()!=null)
+				queue.add(new TreeTraversal().new Element(current.getNode().getLeft(), current.getLevel()+1));
+			if (current.getNode().getRight()!=null)
+				queue.add(new TreeTraversal().new Element(current.getNode().getRight(), current.getLevel()+1));
+		}
+	}
+	
+	class Element{
+		Node node;
+		int level;
+		public Element(Node node, int level) {
+			this.node=node;
+			this.level=level;
+		}
+		public Node getNode() {
+			return node;
+		}
+		public void setNode(Node node) {
+			this.node = node;
+		}
+		public int getLevel() {
+			return level;
+		}
+		public void setLevel(int level) {
+			this.level = level;
+		}
+		
+	}
 	
 }
 
