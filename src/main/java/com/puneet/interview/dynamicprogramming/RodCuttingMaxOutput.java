@@ -1,4 +1,4 @@
-package com.puneet.interview;
+package com.puneet.interview.dynamicprogramming;
 
 public class RodCuttingMaxOutput {
 
